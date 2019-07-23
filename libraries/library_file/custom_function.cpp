@@ -201,7 +201,7 @@ double findMAXdata()
 void distinguish_wave(double *sxx, int nfreq)
 {
   // Set the thresh
-  double thresh = mean_f(sxx, nfreq) + 1.5 * calStd(sxx, nfreq, 0, 0);
+  double thresh = mean_f(sxx, nfreq) + calStd(sxx, nfreq, 0, 0);
   //double thresh = 1.5 * mean_f(sxx, nfreq) + 3 * calStd(sxx, nfreq, 0, 0);
 
 
@@ -232,7 +232,7 @@ void distinguish_wave(double *sxx, int nfreq)
     for (int i = 0; i < nfreq; i++) {
       if (sxx[i] > thresh) {
         count_over_thresh++;
-        if (count_over_thresh >= 15) {
+        if (count_over_thresh >= 8) {
           check = 1;
         }
       }

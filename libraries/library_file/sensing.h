@@ -20,8 +20,8 @@
 
 #define NUM_DATA 1200
 
-
 void sensor_setup();
+void reading_for_avg();
 void sensor_reading();
 void checkStart();   // 데이터 저장을 시작하기 위해 기준 thresh을 넘는지 확인하는 함수(넘으면 1을, 아니면 함수안의 while문을 looping 한다.)
 
