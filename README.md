@@ -32,3 +32,14 @@
 >> custom_function.cpp 수정:
 1. custom_function.cpp
 : count_over_thresh 값 출력 구문 수정(버그)
+
+>> custom_function.cpp 등 3건 수정:
+1. custom_function.cpp
+- thresh 식에서 계수를 2에서 1.5로 조정
+
+2. sensor.iso
+- 뭐가 바뀐거징...
+
+3. adafruit_lis3dh.cpp
+- 16mg -> 32mg 잘못처리함... 버그 수정
+(32mg 잘 될거임)
