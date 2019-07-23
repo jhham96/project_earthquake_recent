@@ -67,3 +67,7 @@ if( ((acc_x - avg_x) / DIV) > 0.035)
 2. calSTD에서 thresh 계수 1.5에서 1로 수정
 
 3. count_thresh 기준값을 15에서 8로 수정
+
+
+>> 수정사항
+1. count_thresh 기준값을 8에서 10으로 수정
