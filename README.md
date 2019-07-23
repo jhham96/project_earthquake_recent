@@ -27,3 +27,8 @@
 - 16mg => 32mg로 증가
 3. custom_function.cpp
 - count_over_thresh 값 볼 수 있도록 수정
+
+
+>> custom_function.cpp 수정:
+1. custom_function.cpp
+: count_over_thresh 값 출력 구문 수정(버그)
