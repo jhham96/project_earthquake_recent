@@ -184,21 +184,14 @@ int sineOrSeismic(double* acc)
 
 double findMAXdata()
 {
-  // acc_x와 acc_z 데이터에서 가장 큰 값을 찾아 반환한다.(절댓값 취해서)
+  // root(x^2 + z^2)의 최대값을 찾아 반환한다.
   double max = 0;
 
   for (int i = 0; i < nacc; i++) {
-    // 1. Compare x and y;
-    // 2. Compare present max and (x or y);
-    if (abs(acc_x[i]) >= abs(acc_z[i])) {
-      if (max < abs(acc_x[i])) {
-        max = acc_x[i];
-      }
-    }
-    else {
-      if (max < abs(acc_z[i])) {
-        max = acc_z[i];
-      }
+    // 1. Compute root(x^2 + z^2)
+    // 2. Compare present max and root(x^2 + z^2);
+    if (max < root(acc_x[i] * acc_x[i] + acc_z[i] * acc_z[i])) {
+      max = root(acc_x[i] * acc_x[i] + acc_z[i] * acc_z[i]);
     }
   }
 

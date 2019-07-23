@@ -13,8 +13,8 @@
 
 // Used for software SPI
 #define LIS3DH_CLK 10
-#define LIS3DH_MISO 9
-#define LIS3DH_MOSI 8
+#define LIS3DH_MOSI 9
+#define LIS3DH_MISO 8
 // Used for hardware & software SPI
 #define LIS3DH_CS 7
 
