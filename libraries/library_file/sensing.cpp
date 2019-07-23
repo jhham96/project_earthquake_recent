@@ -66,37 +66,33 @@ void sensor_setup() {
 
 void checkStart()
 {
-  // float x1, z1, x2, z2;   // 첫번째, 두번째 비교 데이터
+  float x1, z1, x2, z2;   // 첫번째, 두번째 비교 데이터
 
-  lis.setTrigger(true);   // trigger 모드로 전환
-  while(1) {
-    if(digitalRead(inPin) == 1) {    // 트리거 체크 레지스터
-      Serial.println("Thresh over");
-      startp=1;
-      break;
-    }
-  lis.setTrigger(false);  // drdy 모드로 전환
-  }
-
-  // x1 = lis.x_g / DIV;
-  // z1 = lis.z_g / DIV;
-  //
-  // Serial.println("===-=-=-=-대기상태=-=-=-==-=-");
-  // while(1) {     // 1이되었을
-  //   lis.read();
-  //   x2 = lis.x_g / DIV;
-  //   z2 = lis.z_g / DIV;
-  //   if((abs(x1 - x2) > 0.035) || (abs(z1 - z2) > 0.035)) {    // 0.045
-  //     Serial.print(abs(x1 - x2)); Serial.print("////"); Serial.println(abs(z1 - z2));
+  // lis.setTrigger(true);   // trigger 모드로 전환
+  // while(1) {
+  //   if(digitalRead(inPin) == 1) {    // 트리거 체크 레지스터
   //     Serial.println("Thresh over");
-  //     startp = 1;
+  //     startp=1;
   //     break;
-  //   } else {
-  //     x1 = x2;
-  //     z1 = z2;
   //   }
-  //   delay(12000 / NUM_DATA);
+  // lis.setTrigger(false);  // drdy 모드로 전환
   // }
+  Serial.println("===-=-=-=-대기상태=-=-=-==-=-");
+  while(1) {
+    lis.read();
+    x2 = lis.x_g / DIV;
+    z2 = lis.z_g / DIV;
+    if((abs(x1 - x2) > 0.035) || (abs(z1 - z2) > 0.035)) {    //
+      Serial.print(abs(x1 - x2)); Serial.print("////"); Serial.println(abs(z1 - z2));
+      Serial.println("Thresh over");
+      startp = 1;
+      break;
+    } else {
+      x1 = x2;
+      z1 = z2;
+    }
+    // delay(12000 / NUM_DATA); 
+  }
 }
 
 
@@ -111,19 +107,32 @@ void sensor_reading() {
 
     Serial.println("start");
   }
-  if(digitalRead(inPin) == 1) {    // 1일때만 유의미한 데이터를 받아온다. 0이면 쓰레기값
-    lis.read();
+  // if(digitalRead(inPin) == 1) {    // 1일때만 유의미한 데이터를 받아온다. 0이면 쓰레기값
+  //   lis.read();
+  //
+  //   // 이전 데이터와 읽어온 데이터가 다를 때만 데이터를 저장하도록 한다.
+  //   if(acc_x[count - 1] != lis.x_g && acc_z[count - 1] != lis.z_g) {
+  //     acc_x[count] = lis.x_g;
+  //     avg_x += acc_x[count];
+  //
+  //     acc_z[count] = lis.z_g;
+  //     avg_z += acc_z[count];
+  //     count++;
+  //   }
+  // }
 
-    // 이전 데이터와 읽어온 데이터가 다를 때만 데이터를 저장하도록 한다.
-    if(acc_x[count - 1] != lis.x_g && acc_z[count - 1] != lis.z_g) {
-      acc_x[count] = lis.x_g;
-      avg_x += acc_x[count];
+  lis.read();
 
-      acc_z[count] = lis.z_g;
-      avg_z += acc_z[count];
-      count++;
-    }
+  // 이전 데이터와 읽어온 데이터가 다를 때만 데이터를 저장하도록 한다.
+  if(acc_x[count - 1] != lis.x_g && acc_z[count - 1] != lis.z_g) {
+    acc_x[count] = lis.x_g;
+    avg_x += acc_x[count];
+
+    acc_z[count] = lis.z_g;
+    avg_z += acc_z[count];
+    count++;
   }
+
 
   if (count >= NUM_DATA) {
     avg_x /= NUM_DATA;
