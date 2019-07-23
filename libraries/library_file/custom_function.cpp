@@ -299,6 +299,7 @@ void distinguish_wave(double *sxx, int nfreq)
     else {
       // 10개를 넘지 못하는 경우 = 지진파가 아닌 경우
       Serial.print("Structure\n");
+      delay(1000);
       Serial.write('A');
       lcd.setCursor(5, 0);    // 커서를 5, 0에 가져다 놓아라. (열, 행)
       lcd.print("2st");     // 5, 0에 Hi ^^를 출력해라.
@@ -320,7 +321,7 @@ void distinguish_wave(double *sxx, int nfreq)
       }
       // 수정부분
 
-
+      delay(60000);           // 60초 동안 소리를 출력하기 위해 잠시 중단
       lcd.clear();            // 글자를 모두 지워라.
     }
   }

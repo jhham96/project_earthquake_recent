@@ -19,9 +19,10 @@ void loop() {
   if(Serial.available())
   {
     data = Serial.read();
-    Serial.print("data sended - "); Serial.println(data);
   }
   if(data == 'A') {
+    Serial.print("data sended - "); Serial.println(data);
+
     // 공통적으로 해야하는 것들
     // 1. email 보내기
     loop_email(data);

@@ -111,6 +111,9 @@ int parse_menu(byte key_command) {
 
   //if 1-9, play corresponding track
   } else if(key_command >= '1' && key_command <= '9') {
+    // set Max Volume
+    MP3player.setVolume(0x1F, 0x1F);
+
     //convert ascii numbers to real numbers
     key_command = key_command - 48;
 
