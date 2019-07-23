@@ -1,3 +1,5 @@
+// 시연용 코드 fortest
+
 #include <sensing.h>
 
 // variable
