@@ -113,12 +113,16 @@ void sensor_reading() {
   }
   if(digitalRead(inPin) == 1) {    // 1일때만 유의미한 데이터를 받아온다. 0이면 쓰레기값
     lis.read();
-    acc_x[count] = lis.x_g;
-    avg_x += acc_x[count];
-    // acc_y[count] = event.acceleration.y / 9.81;
-    acc_z[count] = lis.z_g;
-    avg_z += acc_z[count];
-    count++;
+
+    // 이전 데이터와 읽어온 데이터가 다를 때만 데이터를 저장하도록 한다.
+    if(acc_x[count - 1] != lis.x_g && acc_z[count - 1] != lis.z_g) {
+      acc_x[count] = lis.x_g;
+      avg_x += acc_x[count];
+
+      acc_z[count] = lis.z_g;
+      avg_z += acc_z[count];
+      count++;
+    }
   }
 
   if (count >= NUM_DATA) {

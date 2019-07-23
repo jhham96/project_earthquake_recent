@@ -237,6 +237,7 @@ void distinguish_wave(double *sxx, int nfreq)
           break;
         }
       }
+      Serial.print("NUM : "); Serial.println(count_over_thresh);
     }
     if (check == 1) {
       double maxValueOfXandY = findMAXdata();
