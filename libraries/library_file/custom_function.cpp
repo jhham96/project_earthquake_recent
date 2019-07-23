@@ -232,7 +232,7 @@ void distinguish_wave(double *sxx, int nfreq)
     for (int i = 0; i < nfreq; i++) {
       if (sxx[i] > thresh) {
         count_over_thresh++;
-        if (count_over_thresh >= 8) {
+        if (count_over_thresh >= 10) {
           check = 1;
         }
       }
