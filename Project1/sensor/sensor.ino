@@ -1,3 +1,5 @@
+// for test(시연용 코드)   브랜치로 구분
+
 extern "C" {
   #include <cpsdfunc.h>
   #include <dcs.h>
