@@ -105,7 +105,7 @@ void loop() {
       Serial.println("Complete");
 
       lcd.setCursor(3, 1);    // 커서를 3, 1로 가져다 놓아라. (열, 행)
-      lcd.print("Complete"); // Codingrun을 입력해라.
+      lcd.print("Complete"); // Codingrun을 입력해라.  
 
       //////// processing finish //////////////
 

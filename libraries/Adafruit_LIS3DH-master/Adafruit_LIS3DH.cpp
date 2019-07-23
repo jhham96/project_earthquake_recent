@@ -192,7 +192,7 @@ void Adafruit_LIS3DH::setTrigger(bool a) {
 
     // trigger
     writeRegister8(LIS3DH_REG_INT1CFG, 0x38);     // 0011 1111
-    writeRegister8(LIS3DH_REG_INT1THS, 0x10);     // 0000 0010    (16mg 의 배수 * 2배)
+    writeRegister8(LIS3DH_REG_INT1THS, 0x02);     // 0000 0010    (16mg 의 배수 * 2 = 32mg)
   } else {
     // DRDY
     writeRegister8(LIS3DH_REG_CTRL3, 0x10);
