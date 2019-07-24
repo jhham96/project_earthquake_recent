@@ -1,5 +1,6 @@
 // custom_function.h
 #include <Arduino.h>
+#include <avr/dtostrf.h>
 
 // LCD 출력을 위한 라이브러리
 #include <LiquidCrystal_I2C.h>     //LiquidCrystal 라이브러리 추가

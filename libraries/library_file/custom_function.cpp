@@ -201,13 +201,36 @@ double findMAXdata()
 void distinguish_wave(double *sxx, int nfreq)
 {
   // Set the thresh
-  double thresh = mean_f(sxx, nfreq) + calStd(sxx, nfreq, 0, 0);
-  //double thresh = 1.5 * mean_f(sxx, nfreq) + 3 * calStd(sxx, nfreq, 0, 0);
+  double m = mean_f(sxx, nfreq);
+  double std = calStd(sxx, nfreq, 0, 0);
+  double thresh = m + std;
 
+  // 센서값 출력(debug)
+  char temp[20];
+  char buffer[20];
+
+  Serial.println ("==============================");
+
+  Serial.print("mean: ");
+  dtostrf(m, 8, 6, temp);
+  sprintf(buffer, "%s", temp);
+  Serial.println(buffer);
+
+  Serial.print("std: ");
+  dtostrf(std, 8, 6, temp);
+  sprintf(buffer, "%s", temp);
+  Serial.println(buffer);
+
+  Serial.print("thresh: ");
+  dtostrf(thresh, 8, 6, temp);
+  sprintf(buffer, "%s", temp);
+  Serial.println(buffer);
+
+  Serial.println ("==============================");
 
   // 40Hz 이후에 해당하는 인덱스들
   // 40 / (fs / NFFT) - 1 = i
-  // EX> 40 / (256 / 1024) - 1 = 159(160번째)
+  // EX> 40 / (100 / 1024) - 1 = ??
   int count = 0;
   char check = 0;
   for (int i = 40 / (fs / NFFT) - 1; i < nfreq; i++) {
@@ -240,6 +263,10 @@ void distinguish_wave(double *sxx, int nfreq)
     Serial.print("NUM : "); Serial.println(count_over_thresh);
     if (check == 1) {
       double maxValueOfXandY = findMAXdata();
+
+      // 이메일 전송 및 MP3
+      delay(1000);
+      Serial.write('A');
 
       digitalWrite(25,LOW);    // 초록 LED 소등
       digitalWrite(26,LOW);    // 초록 LED 소등
@@ -295,33 +322,35 @@ void distinguish_wave(double *sxx, int nfreq)
           }
         }
       }
+
+      delay(60000);           // 60초 동안 소리를 출력하기 위해 잠시 중단
+
     }
     else {
       // 10개를 넘지 못하는 경우 = 지진파가 아닌 경우
       Serial.print("Structure\n");
-      delay(1000);
-      Serial.write('A');
+      // delay(1000);
+      // Serial.write('A');
       lcd.setCursor(5, 0);    // 커서를 5, 0에 가져다 놓아라. (열, 행)
       lcd.print("2st");     // 5, 0에 Hi ^^를 출력해라.
       lcd.setCursor(3, 1);    // 커서를 3, 1로 가져다 놓아라. (열, 행)
       lcd.print("wave step"); // Codingrun을 입력해라.
 
 
-      // 12:00 이후 수정할 부분
-      for(int i = 0 ; i < 16; i++) {     // (0.6초 * 16 = 9.6초)
-            digitalWrite(22,HIGH);
-            delay(200);
-            digitalWrite(22,LOW);
-            digitalWrite(23,HIGH);
-            delay(200);
-            digitalWrite(23,LOW);
-            digitalWrite(24,HIGH);
-            delay(200);
-            digitalWrite(24,LOW);
-      }
+      // // 12:00 이후 수정할 부분
+      // for(int i = 0 ; i < 16; i++) {     // (0.6초 * 16 = 9.6초)
+      //       digitalWrite(22,HIGH);
+      //       delay(200);
+      //       digitalWrite(22,LOW);
+      //       digitalWrite(23,HIGH);
+      //       delay(200);
+      //       digitalWrite(23,LOW);
+      //       digitalWrite(24,HIGH);
+      //       delay(200);
+      //       digitalWrite(24,LOW);
+      // }
       // 수정부분
 
-      delay(60000);           // 60초 동안 소리를 출력하기 위해 잠시 중단
       lcd.clear();            // 글자를 모두 지워라.
     }
   }

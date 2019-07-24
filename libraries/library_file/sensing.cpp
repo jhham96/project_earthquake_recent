@@ -184,17 +184,17 @@ void sensor_reading() {
     Serial.println("complete");
 
 
-    // 센서값 출력(debug)
-    Serial.println ("==============================");
-    Serial.println ("X: ");
-    char temp[20];
-    char buffer[20];
-    for (int i = 0; i < NUM_DATA; i++) {
-      dtostrf(acc_x[i], 8, 6, temp);
-      sprintf(buffer, "%s", temp);
-      Serial.println(buffer);
-    }
-    Serial.println ("==============================");
+    // // 센서값 출력(debug)
+    // Serial.println ("==============================");
+    // Serial.println ("X: ");
+    // char temp[20];
+    // char buffer[20];
+    // for (int i = 0; i < NUM_DATA; i++) {
+    //   dtostrf(acc_x[i], 8, 6, temp);
+    //   sprintf(buffer, "%s", temp);
+    //   Serial.println(buffer);
+    // }
+    // Serial.println ("==============================");
 
     // Serial.println ("==============================");
     // Serial.println("Y: ");
@@ -205,13 +205,13 @@ void sensor_reading() {
     // }
     // Serial.println ("==============================");
 
-    Serial.println ("==============================");
-    Serial.println("Z: ");
-    for (int i = 0; i < NUM_DATA; i++) {
-      dtostrf(acc_z[i], 8, 6, temp);
-      sprintf(buffer, "%s", temp);
-      Serial.println(buffer);
-    }
-    Serial.println ("==============================");
+    // Serial.println ("==============================");
+    // Serial.println("Z: ");
+    // for (int i = 0; i < NUM_DATA; i++) {
+    //   dtostrf(acc_z[i], 8, 6, temp);
+    //   sprintf(buffer, "%s", temp);
+    //   Serial.println(buffer);
+    // }
+    // Serial.println ("==============================");
   }
 }
