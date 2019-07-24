@@ -154,7 +154,7 @@ bool Adafruit_LIS3DH::begin(uint8_t i2caddr) {
   // writeRegister8(LIS3DH_REG_INT1CFG, 0x38);     // 0011 1111
   //
   // // 16mg
-  // writeRegister8(LIS3DH_REG_INT1THS, 0x01);     // 0000 0001    (16mg 의 배수)
+  writeRegister8(LIS3DH_REG_INT1THS, 0x01);     // 0000 0001    (16mg 의 배수)
   //
   // // 추가한내용
 
