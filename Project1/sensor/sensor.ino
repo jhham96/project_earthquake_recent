@@ -132,7 +132,7 @@ void loop() {
     }
     else if (wave == 0) {
       // 정현파인 경우
-      Serial.println("Sinusoidal wave or random wave");
+      Serial.println("sinusoidal wave or random wave");
 
       lcd.clear();
       lcd.setCursor(0, 0);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
@@ -161,11 +161,11 @@ void loop() {
     digitalWrite(26,HIGH);    // 초록 LED 계속 점등
     digitalWrite(27,HIGH);    // 초록 LED 계속 점등
 
-    Serial.println("Start again in 3 seconds!");
+    Serial.println("start again in 3 seconds!");
 
     lcd.clear();
     lcd.setCursor(0, 0);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
-    lcd.print("Start again in");     // 출력
+    lcd.print("start again in");     // 출력
     lcd.setCursor(0, 1);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
     lcd.print("3 seconds!");     // 출력
 
