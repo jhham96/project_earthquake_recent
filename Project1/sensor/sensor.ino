@@ -165,7 +165,9 @@ void loop() {
 
     lcd.clear();
     lcd.setCursor(0, 0);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
-    lcd.print("Start again in 3 seconds!");     // 출력
+    lcd.print("Start again in");     // 출력
+    lcd.setCursor(0, 1);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
+    lcd.print("3 seconds!");     // 출력
 
     delay(3000);    // 3초 후 다시 시작
   }
