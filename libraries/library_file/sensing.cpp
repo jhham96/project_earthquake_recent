@@ -7,6 +7,9 @@ extern int startp;
 extern double acc_x[];
 extern double acc_z[];
 
+extern LiquidCrystal_I2C lcd;
+
+
 #define DIV 15987
 
 // software SPI
