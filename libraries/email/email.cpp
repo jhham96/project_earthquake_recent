@@ -40,9 +40,11 @@ void loop_email(char data) {
 
       // write email message
       email.beginMessage();
-      email.println("안녕 내 이름은 함형이야");
-      email.println("이메일이 되면 너무 좋겠구나");
-      email.println("Good luck");
+      email.println("긴급 지진 경보입니다.\n\n메일로 대응 강령을 발송해 드리니 반드시 숙지하고 행동하시기 바랍니다.\n
+                    1. 몸을 낮추고 천장에서 떨어지는 물체에 대비해 머리를 보호하세요\n
+                    2. 주변 고중량 장비의 움직임으로 인한 부상에 주의하세요\n
+                    3. 흔들림이 멈추면 지진방재연구센터 바로 옆 운동장으로 대피하세요\n
+                    4. 사용자의 위치에서 가장 가까운 옥외야외대피소는 북서쪽 800m 근방의 서남초등학교 입니다.\n");
       email.endMessage();
 
       // send email:
