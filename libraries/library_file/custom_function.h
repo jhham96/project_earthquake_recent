@@ -17,3 +17,4 @@ double calStdPart(double* acc, int div, int start, int finish);
 int sineOrSeismic(double* acc);
 double findMAXdata();
 void distinguish_wave(double *sxx, int nfreq);
+void printForTest();

@@ -46,15 +46,18 @@ void loop() {
   if(startp == 0) {
     checkStart();
     Serial.print("1. Sensor reading - ");
-    
+
     lcd.clear();
     lcd.setCursor(0, 0);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
-    lcd.print("1. Sensor reading");     // 출력
+    lcd.print("1. sensor");     // 출력
+    lcd.setCursor(0, 1);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
+    lcd.print("reading");     // 출력
   }
-  
+
   sensor_reading();
 
   if(count >= NUM_DATA) {
+    lcd.clear();
     lcd.setCursor(3, 1);    // 커서를 3, 1로 가져다 놓아라. (열, 행)
     lcd.print("Complete"); // Codingrun을 입력해라.
 
@@ -64,7 +67,7 @@ void loop() {
     lcd.clear();
     lcd.setCursor(0, 0);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
     lcd.print("2. detrend");     // 출력
-    
+
     preprocessing(nacc, acc_x, acc_z, acc);  // 선형추세 제거
     Serial.println("Complete");
 
@@ -83,71 +86,53 @@ void loop() {
 
     lcd.clear();
     lcd.setCursor(0, 0);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
-    lcd.print("3. sine Or Seismic");     // 출력
-    
-    Serial.print("3. sine Or Seismic - ");
+    lcd.print("3. sine or");     // 출력
+    lcd.setCursor(0, 1);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
+    lcd.print("seismic");     // 출력
+
+    Serial.print("3. sine or seismic - ");
     int wave = sineOrSeismic(acc);  // 지진파인지, 정현파인지 구별
 
     if (wave == 1) {
       // 지진파라고 생각되는 경우
-      Serial.println("Complete");
+      Serial.println("complete");
 
+      lcd.clear();
       lcd.setCursor(3, 1);    // 커서를 3, 1로 가져다 놓아라. (열, 행)
-      lcd.print("Complete"); // Codingrun을 입력해라.
+      lcd.print("complete"); // Codingrun을 입력해라.
 
-      Serial.print("4. Calculate CPSD - ");
+      Serial.print("4. calculate cpsd - ");
 
       lcd.clear();
       lcd.setCursor(0, 0);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
-      lcd.print("4. Calculate CPSD");     // 출력
-      
-      calculate_cpsd(acc, sxx, NFFT, fs, nacc);
-      Serial.println("Complete");
+      lcd.print("4. calculate");     // 출력
+      lcd.setCursor(0, 1);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
+      lcd.print("cpsd");     // 출력
 
+      calculate_cpsd(acc, sxx, NFFT, fs, nacc);
+      Serial.println("complete");
+
+      lcd.clear();
       lcd.setCursor(3, 1);    // 커서를 3, 1로 가져다 놓아라. (열, 행)
-      lcd.print("Complete"); // Codingrun을 입력해라.  
+      lcd.print("complete"); // Codingrun을 입력해라.
 
       //////// processing finish //////////////
 
       // notification
 
-      Serial.println("5. Waveform classification - ");
+      Serial.println("5. waveform classification - ");
 
       lcd.clear();
       lcd.setCursor(0, 0);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
-      lcd.print("5. Waveform classification");     // 출력
+      lcd.print("5. waveform");     // 출력
+      lcd.setCursor(0, 1);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
+      lcd.print("classification");     // 출력
       distinguish_wave(sxx, nfreq);
     }
     else if (wave == 0) {
       // 정현파인 경우
-      Serial.println("Sinusoidal wave or random wave");
-    
-      lcd.clear();
-      lcd.setCursor(0, 0);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
-      lcd.print("Sinusoidal wave or random wave");     // 출력
-      
-      digitalWrite(25,LOW);    // 초록 LED 소등
-      digitalWrite(26,LOW);    // 초록 LED 소등
-      digitalWrite(27,LOW);    // 초록 LED 소등
-      for(int i = 0 ; i < 17; i++) {
-          digitalWrite(28,HIGH);  // 노랑 LED 점등
-          delay(100);
-          digitalWrite(28,LOW);
-          digitalWrite(29,HIGH);
-          delay(100);
-          digitalWrite(29,LOW);
-          digitalWrite(30,HIGH);
-          delay(100);
-          digitalWrite(30,LOW);
-      }
+      printForTest();
     }
-
-//    // sxx값 출력하는 코드(아직까지 nan값이 나오는 걸로 파악..)
-//    for(int i = 0 ; i < NFFT / 2 ; i++) {
-//      dtostrf(sxx[i], 8, 6, temp1);
-//      sprintf(buffer1, "%s", temp1);
-//      Serial.println(buffer1);
-//    }
 
     // 다시 실행을 위한 초기화
     count = 0;
@@ -155,13 +140,15 @@ void loop() {
     digitalWrite(25,HIGH);    // 초록 LED 계속 점등
     digitalWrite(26,HIGH);    // 초록 LED 계속 점등
     digitalWrite(27,HIGH);    // 초록 LED 계속 점등
-    
+
     Serial.println("Start again in 3 seconds!");
 
     lcd.clear();
     lcd.setCursor(0, 0);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
-    lcd.print("Start again in 3 seconds!");     // 출력
-    
+    lcd.print("Start again in");     // 출력
+    lcd.setCursor(0, 1);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
+    lcd.print("3 seconds!");     // 출력
+
     delay(3000);    // 3초 후 다시 시작
   }
 }

@@ -205,28 +205,28 @@ void distinguish_wave(double *sxx, int nfreq)
   double std = calStd(sxx, nfreq, 0, 0);
   double thresh = m + std;
 
-  // 센서값 출력(debug)
-  char temp[20];
-  char buffer[20];
-
-  Serial.println ("==============================");
-
-  Serial.print("mean: ");
-  dtostrf(m, 8, 6, temp);
-  sprintf(buffer, "%s", temp);
-  Serial.println(buffer);
-
-  Serial.print("std: ");
-  dtostrf(std, 8, 6, temp);
-  sprintf(buffer, "%s", temp);
-  Serial.println(buffer);
-
-  Serial.print("thresh: ");
-  dtostrf(thresh, 8, 6, temp);
-  sprintf(buffer, "%s", temp);
-  Serial.println(buffer);
-
-  Serial.println ("==============================");
+  // // 센서값 출력(debug)
+  // char temp[20];
+  // char buffer[20];
+  //
+  // Serial.println ("==============================");
+  //
+  // Serial.print("mean: ");
+  // dtostrf(m, 8, 6, temp);
+  // sprintf(buffer, "%s", temp);
+  // Serial.println(buffer);
+  //
+  // Serial.print("std: ");
+  // dtostrf(std, 8, 6, temp);
+  // sprintf(buffer, "%s", temp);
+  // Serial.println(buffer);
+  //
+  // Serial.print("thresh: ");
+  // dtostrf(thresh, 8, 6, temp);
+  // sprintf(buffer, "%s", temp);
+  // Serial.println(buffer);
+  //
+  // Serial.println ("==============================");
 
   // 40Hz 이후에 해당하는 인덱스들
   // 40 / (fs / NFFT) - 1 = i
@@ -243,8 +243,7 @@ void distinguish_wave(double *sxx, int nfreq)
     }
   }
   if (check == 1) {
-    // 40Hz가 넘는것이 50개가 넘어가면 지진파가 아니라고 판단.
-   Serial.println("발파에 해당");
+    printForTest();
   }
   else {
     // 그렇지 않는 경우, 세부 지진파 구별 단계로 진행
@@ -260,21 +259,25 @@ void distinguish_wave(double *sxx, int nfreq)
         }
       }
     }
-    Serial.print("NUM : "); Serial.println(count_over_thresh);
+    Serial.print("num : "); Serial.println(count_over_thresh);
     if (check == 1) {
       double maxValueOfXandY = findMAXdata();
-
-      // 이메일 전송 및 MP3
-      delay(1000);
-      Serial.write('A');
 
       digitalWrite(25,LOW);    // 초록 LED 소등
       digitalWrite(26,LOW);    // 초록 LED 소등
       digitalWrite(27,LOW);    // 초록 LED 소등
 
       if (maxValueOfXandY > 0.264) {
-        // 3단계
-        Serial.print("3단계\n");
+        // 이메일 전송 및 MP3
+        delay(1000);
+        Serial.write('A');
+
+        // LCD - rooftop earthquake를 두줄에 거쳐서 출력한다.
+        lcd.setCursor(0, 0);    // 커서위치(열, 행)
+        lcd.print("Earthquake");
+        lcd.setCursor(0, 1);
+        lcd.print("3rd step");
+
         // 0.1초 간격으로 50번 빨강 LED 점등    (0.3초 * 17 = 5.1초)
         for(int i = 0 ; i < 17; i++) {
           digitalWrite(22,HIGH);
@@ -290,8 +293,16 @@ void distinguish_wave(double *sxx, int nfreq)
       }
       else {
         if (maxValueOfXandY > 0.066) {
-          // 2단계
-          Serial.print("2단계\n");
+          // 이메일 전송 및 MP3
+          delay(1000);
+          Serial.write('B');
+
+          // LCD - rooftop earthquake를 두줄에 거쳐서 출력한다.
+          lcd.setCursor(0, 0);    // 커서위치(열, 행)
+          lcd.print("Earthquake");
+          lcd.setCursor(0, 1);
+          lcd.print("2nd step");
+
           // 0.2초 간격으로 50번 빨강 LED 점등   (0.6초 * 8 = 4.8초)
           for(int i = 0 ; i < 8; i++) {
             digitalWrite(22,HIGH);
@@ -306,8 +317,16 @@ void distinguish_wave(double *sxx, int nfreq)
           }
         }
         else {
-          // 1단계
-          Serial.print("1단계\n");
+          // 이메일 전송 및 MP3
+          delay(1000);
+          Serial.write('C');
+
+          // LCD - rooftop earthquake를 두줄에 거쳐서 출력한다.
+          lcd.setCursor(0, 0);    // 커서위치(열, 행)
+          lcd.print("Earthquake");
+          lcd.setCursor(0, 1);
+          lcd.print("1st step");
+
           // 0.3초 간격으로 50번 빨강 LED 점등   (0.9초 * 6 = 5.4초)
           for(int i = 0 ; i < 6; i++) {
             digitalWrite(22,HIGH);
@@ -323,35 +342,54 @@ void distinguish_wave(double *sxx, int nfreq)
         }
       }
 
-      delay(60000);           // 60초 동안 소리를 출력하기 위해 잠시 중단
+      delay(60000);           // 방송이 끝날때까지 기다리고 되돌아간다.
+
+      lcd.clear();            // 글자를 모두 지워라.
 
     }
     else {
-      // 10개를 넘지 못하는 경우 = 지진파가 아닌 경우
-      Serial.print("Structure\n");
-      // delay(1000);
-      // Serial.write('A');
-      lcd.setCursor(5, 0);    // 커서를 5, 0에 가져다 놓아라. (열, 행)
-      lcd.print("2st");     // 5, 0에 Hi ^^를 출력해라.
-      lcd.setCursor(3, 1);    // 커서를 3, 1로 가져다 놓아라. (열, 행)
-      lcd.print("wave step"); // Codingrun을 입력해라.
-
-
-      // // 12:00 이후 수정할 부분
-      // for(int i = 0 ; i < 16; i++) {     // (0.6초 * 16 = 9.6초)
-      //       digitalWrite(22,HIGH);
-      //       delay(200);
-      //       digitalWrite(22,LOW);
-      //       digitalWrite(23,HIGH);
-      //       delay(200);
-      //       digitalWrite(23,LOW);
-      //       digitalWrite(24,HIGH);
-      //       delay(200);
-      //       digitalWrite(24,LOW);
-      // }
-      // 수정부분
-
-      lcd.clear();            // 글자를 모두 지워라.
+      printForTest();
     }
   }
+}
+
+void printForTest()   // 무조건 지진 2단계로 출력 한다.
+{
+  // Serial moniter출력(debug시에만)
+  #ifdef _DEBUG
+  Serial.println("earthquake 2nd step");
+  #endif
+
+  // 초록 LED 소등
+  digitalWrite(25,LOW);
+  digitalWrite(26,LOW);
+  digitalWrite(27,LOW);
+
+  // 이메일 전송 및 MP3(지진 2단계 이메일 및 음성 출력)
+  delay(1000);
+  Serial.write('B');
+
+  // LCD - rooftop earthquake를 두줄에 거쳐서 출력한다.
+  lcd.setCursor(0, 0);    // 커서위치(열, 행)
+  lcd.print("Earthquake");
+  lcd.setCursor(0, 1);
+  lcd.print("2nd step");
+
+
+  // 0.2초 간격으로 50번 빨강 LED 점등   (0.6초 * 8 = 4.8초)
+  for(int i = 0 ; i < 8; i++) {
+    digitalWrite(22,HIGH);
+    delay(200);
+    digitalWrite(22,LOW);
+    digitalWrite(23,HIGH);
+    delay(200);
+    digitalWrite(23,LOW);
+    digitalWrite(24,HIGH);
+    delay(200);
+    digitalWrite(24,LOW);
+  }
+
+  delay(60000);     // 방송이 끝날때까지 기다리고 되돌아간다.
+
+  lcd.clear();            // 글자를 모두 지워라.
 }

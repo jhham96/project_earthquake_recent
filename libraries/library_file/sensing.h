@@ -11,6 +11,9 @@
 #include <Wire.h>
 #include <SPI.h>
 
+#include <LiquidCrystal_I2C.h>     //LiquidCrystal 라이브러리 추가
+
+
 // Used for software SPI
 #define LIS3DH_CLK 10
 #define LIS3DH_MOSI 9
