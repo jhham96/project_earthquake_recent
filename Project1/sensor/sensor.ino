@@ -1,3 +1,5 @@
+// for test(시연용 코드)   브랜치로 구분
+
 extern "C" {
   #include <cpsdfunc.h>
   #include <dcs.h>
@@ -16,6 +18,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);  //lcd 객체 선언
 int count;
 
 double acc_x[NUM_DATA] = {0, };
+double acc_y[NUM_DATA] = {0, };
 double acc_z[NUM_DATA] = {0, };
 
 int nfreq;

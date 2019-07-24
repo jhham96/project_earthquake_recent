@@ -5,6 +5,7 @@ extern int count;
 extern int startp;
 
 extern double acc_x[];
+extern double acc_y[];
 extern double acc_z[];
 
 #define DIV 15987
@@ -104,20 +105,7 @@ void reading_for_avg() {
 
 void checkStart()
 {
-  double x, z;
-  Serial.println("===-=-=-=-대기상태=-=-=-==-=-");
-  while(1) {
-    lis.read();
-    x = lis.x_g;
-    z = lis.z_g;
-    if( ((lis.x_g - avg_x_first) / DIV > 0.035) || ((lis.z_g - avg_z_first) / DIV > 0.035) ) {
-      Serial.print((x - avg_x_first) / DIV); Serial.print("////"); Serial.println((z - avg_z_first) / DIV);
-      Serial.println("Thresh over");
-      startp = 1;
-      break;
-    }
-    delay(12000 / NUM_DATA);
-  }
+  startp = 1;
 }
 
 
@@ -132,57 +120,25 @@ void sensor_reading() {
 
     Serial.println("start");
   }
-  // if(digitalRead(inPin) == 1) {    // 1일때만 유의미한 데이터를 받아온다. 0이면 쓰레기값
-  //   lis.read();
-  //
-  //   // 이전 데이터와 읽어온 데이터가 다를 때만 데이터를 저장하도록 한다.
-  //   if(acc_x[count - 1] != lis.x_g && acc_z[count - 1] != lis.z_g) {
-  //     acc_x[count] = lis.x_g;
-  //     avg_x += acc_x[count];
-  //
-  //     acc_z[count] = lis.z_g;
-  //     avg_z += acc_z[count];
-  //     count++;
-  //   }
-  // }
 
   lis.read();
 
   // 이전 데이터와 읽어온 데이터가 다를 때만 데이터를 저장하도록 한다.
   if(count == 0) {  // 0은 아래서 인덱스 에러가 발생하지 않도록 특별 처리
     acc_x[count] = lis.x_g;
-    avg_x += acc_x[count];
-
+    acc_y[count] = lis.y_g;
     acc_z[count] = lis.z_g;
-    avg_z += acc_z[count];
     count++;
   }
-  else if(acc_x[count - 1] != lis.x_g && acc_z[count - 1] != lis.z_g) {
+  else if(acc_x[count - 1] != lis.x_g && acc_y[count - 1] != lis.y_g && acc_z[count - 1] != lis.z_g) {
     acc_x[count] = lis.x_g;
-    avg_x += acc_x[count];
-
+    acc_y[count] = lis.y_g;
     acc_z[count] = lis.z_g;
-    avg_z += acc_z[count];
     count++;
   }
-  delay(12000 / NUM_DATA);
-
+  // delay(12000 / NUM_DATA);
 
   if (count >= NUM_DATA) {
-    avg_x /= NUM_DATA;
-    avg_z /= NUM_DATA;
-
-    Serial.print("\navg_x : "); Serial.println(avg_x);
-    Serial.print("avg_z : "); Serial.println(avg_z);
-
-
-    Serial.print("평균으로 빼기 - ");
-    for(int i = 0 ; i < NUM_DATA ; i++) {
-      acc_x[i] = (acc_x[i] - avg_x) / DIV;
-      acc_z[i] = (acc_z[i] - avg_z) / DIV;
-    }
-    Serial.println("complete");
-
 
     // 센서값 출력(debug)
     Serial.println ("==============================");
@@ -196,14 +152,14 @@ void sensor_reading() {
     }
     Serial.println ("==============================");
 
-    // Serial.println ("==============================");
-    // Serial.println("Y: ");
-    // for (int i = 0; i < NUM_DATA; i++) {
-    //   dtostrf(acc_y[i], 8, 6, temp);
-    //   sprintf(buffer, "%s", temp);
-    //   Serial.println(buffer);
-    // }
-    // Serial.println ("==============================");
+    Serial.println ("==============================");
+    Serial.println("Y: ");
+    for (int i = 0; i < NUM_DATA; i++) {
+      dtostrf(acc_y[i], 8, 6, temp);
+      sprintf(buffer, "%s", temp);
+      Serial.println(buffer);
+    }
+    Serial.println ("==============================");
 
     Serial.println ("==============================");
     Serial.println("Z: ");
