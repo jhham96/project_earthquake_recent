@@ -43,7 +43,7 @@ void loop() {
 
     // 공통적으로 해야하는 것들
     // 1. email 보내기
-    loop_email(data);
+    loop_email('A');
 
     // 2. MP3로 음성안내
     Serial.println("MP3 음성안내 시작");
@@ -61,7 +61,7 @@ void loop() {
 
     // 공통적으로 해야하는 것들
     // 1. email 보내기
-    loop_email(data);
+    loop_email('A');
 
     // 2. MP3로 음성안내
     Serial.println("MP3 음성안내 시작");
@@ -79,7 +79,7 @@ void loop() {
 
     // 공통적으로 해야하는 것들
     // 1. email 보내기
-    loop_email(data);
+    loop_email('A');
 
     // 2. MP3로 음성안내
     Serial.println("MP3 음성안내 시작");
@@ -97,7 +97,7 @@ void loop() {
 
     // 공통적으로 해야하는 것들
     // 1. email 보내기
-    loop_email(data);
+    loop_email('A');
 
     // 2. MP3로 음성안내
     Serial.println("MP3 음성안내 시작");
