@@ -272,6 +272,7 @@ void distinguish_wave(double *sxx, int nfreq)
         delay(1000);
         Serial.write('A');
 
+        lcd.clear();
         // LCD - rooftop earthquake를 두줄에 거쳐서 출력한다.
         lcd.setCursor(0, 0);    // 커서위치(열, 행)
         lcd.print("Earthquake");
@@ -297,6 +298,7 @@ void distinguish_wave(double *sxx, int nfreq)
           delay(1000);
           Serial.write('B');
 
+          lcd.clear();
           // LCD - rooftop earthquake를 두줄에 거쳐서 출력한다.
           lcd.setCursor(0, 0);    // 커서위치(열, 행)
           lcd.print("Earthquake");
@@ -321,6 +323,7 @@ void distinguish_wave(double *sxx, int nfreq)
           delay(1000);
           Serial.write('C');
 
+          lcd.clear();
           // LCD - rooftop earthquake를 두줄에 거쳐서 출력한다.
           lcd.setCursor(0, 0);    // 커서위치(열, 행)
           lcd.print("Earthquake");
@@ -369,6 +372,7 @@ void printForTest()   // 무조건 지진 2단계로 출력 한다.
   delay(1000);
   Serial.write('B');
 
+  lcd.clear();
   // LCD - rooftop earthquake를 두줄에 거쳐서 출력한다.
   lcd.setCursor(0, 0);    // 커서위치(열, 행)
   lcd.print("Earthquake");
