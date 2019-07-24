@@ -45,7 +45,7 @@ void setup(void) {
 void loop() {
   if(startp == 0) {
     checkStart();
-    Serial.print("1. Sensor reading - ");
+    Serial.print("1. sensor reading - ");
 
     lcd.clear();
     lcd.setCursor(0, 0);    // 커서를 0, 0에 가져다 놓아라. (열, 행)
@@ -59,9 +59,9 @@ void loop() {
   if(count >= NUM_DATA) {
     lcd.clear();
     lcd.setCursor(3, 1);    // 커서를 3, 1로 가져다 놓아라. (열, 행)
-    lcd.print("Complete"); // Codingrun을 입력해라.
+    lcd.print("complete"); // Codingrun을 입력해라.
 
-    Serial.println("Complete");
+    Serial.println("complete");
     Serial.print("2. 선형추세 제거 - ");
 
     lcd.clear();
@@ -69,10 +69,10 @@ void loop() {
     lcd.print("2. detrend");     // 출력
 
     preprocessing(nacc, acc_x, acc_z, acc);  // 선형추세 제거
-    Serial.println("Complete");
+    Serial.println("complete");
 
     lcd.setCursor(3, 1);    // 커서를 3, 1로 가져다 놓아라. (열, 행)
-    lcd.print("Complete"); // Codingrun을 입력해라.
+    lcd.print("complete"); // Codingrun을 입력해라.
 
 
     // detrend를 거친 acc값 출력        debug
