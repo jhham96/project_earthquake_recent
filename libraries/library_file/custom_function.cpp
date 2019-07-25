@@ -8,13 +8,6 @@ extern int fs;
 extern double acc_x[];
 extern double acc_z[];
 
-extern LiquidCrystal_I2C lcd;
-
-void setup_lcd()
-{
-  lcd.begin(); //LCD 사용 시작
-}
-
 double power(double a, int n)
 {
   if (a == 0) { return 0; }
@@ -223,9 +216,6 @@ void distinguish_wave(double *sxx, int nfreq)
     Serial.println("발파에 해당");
 
     // LCD - rooftop earthquake를 두줄에 거쳐서 출력한다.
-    lcd.clear();
-    lcd.setCursor(0, 0);    // 커서위치(열, 행)
-    lcd.print("explosion");
   }
   else {
     // 그렇지 않는 경우, 세부 지진파 구별 단계로 진행
@@ -253,12 +243,7 @@ void distinguish_wave(double *sxx, int nfreq)
         // 3단계
         Serial.print("3단계\n");
 
-        lcd.clear();
         // LCD - rooftop earthquake를 두줄에 거쳐서 출력한다.
-        lcd.setCursor(0, 0);    // 커서위치(열, 행)
-        lcd.print("Earthquake");
-        lcd.setCursor(0, 1);
-        lcd.print("3rd step");
 
         // 0.1초 간격으로 50번 빨강 LED 점등    (0.3초 * 17 = 5.1초)
         for(int i = 0 ; i < 17; i++) {
@@ -278,12 +263,7 @@ void distinguish_wave(double *sxx, int nfreq)
           // 2단계
           Serial.print("2단계\n");
 
-          lcd.clear();
           // LCD - rooftop earthquake를 두줄에 거쳐서 출력한다.
-          lcd.setCursor(0, 0);    // 커서위치(열, 행)
-          lcd.print("Earthquake");
-          lcd.setCursor(0, 1);
-          lcd.print("2nd step");
 
           // 0.2초 간격으로 50번 빨강 LED 점등   (0.6초 * 8 = 4.8초)
           for(int i = 0 ; i < 8; i++) {
@@ -302,12 +282,6 @@ void distinguish_wave(double *sxx, int nfreq)
           // 1단계
           Serial.print("1단계\n");
 
-          lcd.clear();
-          // LCD - rooftop earthquake를 두줄에 거쳐서 출력한다.
-          lcd.setCursor(0, 0);    // 커서위치(열, 행)
-          lcd.print("Earthquake");
-          lcd.setCursor(0, 1);
-          lcd.print("1st step");
 
           // 0.3초 간격으로 50번 빨강 LED 점등   (0.9초 * 6 = 5.4초)
           for(int i = 0 ; i < 6; i++) {
@@ -328,12 +302,6 @@ void distinguish_wave(double *sxx, int nfreq)
       // 10개를 넘지 못하는 경우 = 지진파가 아닌 경우
       Serial.print("rooftop earthquake\n");
 
-      lcd.clear();
-      lcd.setCursor(0, 0);    // 커서를 5, 0에 가져다 놓아라. (열, 행)
-      lcd.print("rooftop");     // 5, 0에 Hi ^^를 출력해라.
-      lcd.setCursor(0, 1);    // 커서를 3, 1로 가져다 놓아라. (열, 행)
-      lcd.print("earthquake"); // Codingrun을 입력해라.
-
       digitalWrite(22,HIGH);
       digitalWrite(23,HIGH);
       digitalWrite(24,HIGH);
@@ -342,7 +310,6 @@ void distinguish_wave(double *sxx, int nfreq)
       digitalWrite(23,LOW);
       digitalWrite(24,LOW);
 
-      lcd.clear();            // 글자를 모두 지워라.
     }
   }
 }

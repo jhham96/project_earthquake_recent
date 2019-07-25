@@ -7,9 +7,6 @@ extern int startp;
 extern double acc_x[];
 extern double acc_z[];
 
-extern LiquidCrystal_I2C lcd;
-
-
 #define DIV 15987
 
 // software SPI
@@ -109,9 +106,6 @@ void checkStart()
 {
   double x, z;
   Serial.println("===-=-=-=-대기상태=-=-=-==-=-");
-  lcd.clear();
-  lcd.setCursor(0, 0);    // 커서위치(열, 행)
-  lcd.print("idle state");
 
   while(1) {
     lis.read();
@@ -120,9 +114,6 @@ void checkStart()
     if( ((lis.x_g - avg_x_first) / DIV > 0.035) || ((lis.z_g - avg_z_first) / DIV > 0.035) ) {
       Serial.print((x - avg_x_first) / DIV); Serial.print("////"); Serial.println((z - avg_z_first) / DIV);
       Serial.println("thresh over");
-      lcd.clear();
-      lcd.setCursor(0, 0);    // 커서위치(열, 행)
-      lcd.print("thresh over");
 
       startp = 1;
       break;
@@ -139,22 +130,12 @@ void sensor_reading() {
     avg_z = 0;
 
     // start collecting data after 3 sec
-    lcd.clear();
-    lcd.setCursor(0, 0);    // 커서위치(열, 행)
-    lcd.print("3");
     delay(995);
-    lcd.setCursor(4, 0);    // 커서위치(열, 행)
-    lcd.print("2");
     delay(995);
-    lcd.setCursor(8, 0);    // 커서위치(열, 행)
-    lcd.print("1");
     delay(995);
 
     Serial.println("start");
 
-    lcd.clear();
-    lcd.setCursor(1, 0);    // 커서위치(열, 행)
-    lcd.print("start!!");
   }
 
   lis.read();
@@ -193,5 +174,36 @@ void sensor_reading() {
       acc_z[i] = (acc_z[i] - avg_z) / DIV;
     }
     // Serial.println("complete");
+
+
+    // // 센서값 출력(debug)
+    // Serial.println ("==============================");
+    // Serial.println ("X: ");
+    // char temp[20];
+    // char buffer[20];
+    // for (int i = 0; i < NUM_DATA; i++) {
+    //   dtostrf(acc_x[i], 8, 6, temp);
+    //   sprintf(buffer, "%s", temp);
+    //   Serial.println(buffer);
+    // }
+    // Serial.println ("==============================");
+
+    // Serial.println ("==============================");
+    // Serial.println("Y: ");
+    // for (int i = 0; i < NUM_DATA; i++) {
+    //   dtostrf(acc_y[i], 8, 6, temp);
+    //   sprintf(buffer, "%s", temp);
+    //   Serial.println(buffer);
+    // }
+    // Serial.println ("==============================");
+
+    // Serial.println ("==============================");
+    // Serial.println("Z: ");
+    // for (int i = 0; i < NUM_DATA; i++) {
+    //   dtostrf(acc_z[i], 8, 6, temp);
+    //   sprintf(buffer, "%s", temp);
+    //   Serial.println(buffer);
+    // }
+    // Serial.println ("==============================");
   }
 }

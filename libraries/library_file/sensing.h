@@ -6,7 +6,6 @@
 #include <avr/pgmspace.h>
 #include <avr/dtostrf.h>
 
-#include <LiquidCrystal_I2C.h>     //LiquidCrystal 라이브러리 추가
 
 
 // Basic demo for accelerometer readings from Adafruit LIS3DH
