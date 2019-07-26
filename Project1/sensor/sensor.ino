@@ -13,6 +13,8 @@ extern "C" {
 #include <sensing.h>
 #include <custom_function.h>
 
+// #define SENSOR_DEBUG
+
 int count;
 
 double acc_x[NUM_DATA] = {0, };
@@ -44,6 +46,13 @@ void loop() {
   if(startp == 0) {
     checkStart();
     Serial.print("1. sensor reading - ");
+
+    #ifdef SENSOR_DEBUG   // OXX
+      digitalWrite(25,HIGH);
+      digitalWrite(26,LOW);
+      digitalWrite(27,LOW);
+    #endif
+
   }
 
   sensor_reading();
@@ -52,6 +61,12 @@ void loop() {
 
     Serial.println("complete");
     Serial.print("2. 선형추세 제거 - ");
+
+    #ifdef SENSOR_DEBUG   // XOX
+      digitalWrite(25,LOW);
+      digitalWrite(26,HIGH);
+      digitalWrite(27,LOW);
+    #endif
 
     preprocessing(nacc, acc_x, acc_z, acc);  // 선형추세 제거
     Serial.println("complete");
@@ -66,6 +81,13 @@ void loop() {
 //    }
 
     Serial.print("3. sine or seismic - ");
+
+    #ifdef SENSOR_DEBUG   // XXO
+      digitalWrite(25,LOW);
+      digitalWrite(26,LOW);
+      digitalWrite(27,HIGH);
+    #endif
+
     int wave = sineOrSeismic(acc);  // 지진파인지, 정현파인지 구별
 
     if (wave == 1) {
@@ -73,6 +95,13 @@ void loop() {
       Serial.println("complete");
 
       Serial.print("4. calculate cpsd - ");
+
+      #ifdef SENSOR_DEBUG   // OOX
+        digitalWrite(25,HIGH);
+        digitalWrite(26,HIGH);
+        digitalWrite(27,LOW);
+      #endif
+
 
       calculate_cpsd(acc, sxx, NFFT, fs, nacc);
       Serial.println("complete");
@@ -82,6 +111,12 @@ void loop() {
       // notification
 
       Serial.println("5. waveform classification - ");
+
+      #ifdef SENSOR_DEBUG   // XOO
+        digitalWrite(25,LOW);
+        digitalWrite(26,HIGH);
+        digitalWrite(27,HIGH);
+      #endif
 
       distinguish_wave(sxx, nfreq);
     }
@@ -103,6 +138,13 @@ void loop() {
           delay(100);
           digitalWrite(30,LOW);
       }
+      digitalWrite(28,HIGH);  // 노랑 LED 점등
+      digitalWrite(29,HIGH);  // 노랑 LED 점등
+      digitalWrite(30,HIGH);  // 노랑 LED 점등
+      delay(60000 * 5);
+      digitalWrite(28,LOW);  // 노랑 LED 점등
+      digitalWrite(29,LOW);  // 노랑 LED 점등
+      digitalWrite(30,LOW);  // 노랑 LED 점등
     }
 
     // 다시 실행을 위한 초기화
@@ -114,6 +156,22 @@ void loop() {
 
     Serial.println("start again in 3 seconds!");
 
-    delay(3000);    // 3초 후 다시 시작
+    #ifndef SENSOR_DEBUG
+      delay(3000);
+    #endif
+
+    #ifdef SENSOR_DEBUG   // 3초동안 1초간격으로 하나씩 꺼짐으로써 3초를 계측한다
+      delay(995);
+      digitalWrite(27,LOW);    // 초록 LED 계속 점등
+      delay(995);
+      digitalWrite(26,LOW);    // 초록 LED 계속 점등
+      delay(995);
+      digitalWrite(25,LOW);    // 초록 LED 계속 점등
+
+      digitalWrite(25,HIGH);    // 초록 LED 계속 점등
+      digitalWrite(26,HIGH);    // 초록 LED 계속 점등
+      digitalWrite(27,HIGH);    // 초록 LED 계속 점등
+    #endif
+
   }
 }

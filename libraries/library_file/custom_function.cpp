@@ -207,10 +207,11 @@ void distinguish_wave(double *sxx, int nfreq)
     if (sxx[i] >= thresh) {
       count++;
     }
-    if (count >= 8) {
+    if (count >= 50) {
       check = 1;
     }
   }
+  Serial.println(count);
   if (check == 1) {
     // 40Hz가 넘는것이 8개가 넘어가면 지진파가 아니라고 판단.
     Serial.println("발파에 해당");
@@ -302,6 +303,10 @@ void distinguish_wave(double *sxx, int nfreq)
       // 10개를 넘지 못하는 경우 = 지진파가 아닌 경우
       Serial.print("rooftop earthquake\n");
 
+      digitalWrite(25,LOW);    // 아
+      digitalWrite(26,LOW);    // 아쉽다
+      digitalWrite(27,LOW);    // 이거 3줄 
+
       digitalWrite(22,HIGH);
       digitalWrite(23,HIGH);
       digitalWrite(24,HIGH);
@@ -311,5 +316,15 @@ void distinguish_wave(double *sxx, int nfreq)
       digitalWrite(24,LOW);
 
     }
+
+    // 1분동안
+    digitalWrite(22,HIGH);
+    digitalWrite(23,HIGH);
+    digitalWrite(24,HIGH);
+    delay(60000 * 5);
+    digitalWrite(22,LOW);
+    digitalWrite(23,LOW);
+    digitalWrite(24,LOW);
+
   }
 }
